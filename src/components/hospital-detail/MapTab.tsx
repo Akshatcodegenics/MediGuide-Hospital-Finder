@@ -7,7 +7,7 @@ import { Compass, Locate, Layers, MoveHorizontal, Navigation, MapPin, Hotel, Pil
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
-// Fix for default markers in react-leaflet
+// Fix for default markers in leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',

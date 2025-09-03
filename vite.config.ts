@@ -16,4 +16,12 @@ export default defineConfig(() => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: ["use-sidecar", "use-callback-ref"],
+  },
+  build: {
+    rollupOptions: {
+      external: [],
+    },
+  },
 }));
