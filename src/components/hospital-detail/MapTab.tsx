@@ -8,7 +8,8 @@ import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
 // Fix for default markers in leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+// Remove 'any' usage and use correct type
+delete (L.Icon.Default.prototype as unknown as { _getIconUrl: () => string })._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -74,7 +75,7 @@ export const MapTab: React.FC<MapTabProps> = ({ hospital }) => {
   const mapRef = useRef<L.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   
-  const location = hospitalLocations[hospital.id] || { lat: 28.6139, lng: 77.2090 };
+  const location = React.useMemo(() => hospitalLocations[hospital.id] || { lat: 28.6139, lng: 77.2090 }, [hospital.id]);
 
   useEffect(() => {
     setMapCenter([location.lat, location.lng]);
@@ -110,7 +111,7 @@ export const MapTab: React.FC<MapTabProps> = ({ hospital }) => {
         mapRef.current = null;
       }
     };
-  }, []);
+  }, [hospital.address, hospital.contact, hospital.name, location.lat, location.lng, mapCenter, mapZoom]);
 
   // Update map view when center or zoom changes
   useEffect(() => {
@@ -120,7 +121,7 @@ export const MapTab: React.FC<MapTabProps> = ({ hospital }) => {
   }, [mapCenter, mapZoom]);
 
   // Generate nearby places
-  const generateNearbyPlaces = () => {
+  const generateNearbyPlaces = React.useCallback(() => {
     const generateRandomLocation = (baseLat: number, baseLng: number, maxDistanceKm: number) => {
       const maxDegrees = maxDistanceKm / 111; // 1 degree ≈ 111km
       const randomDistance = Math.random() * maxDegrees * 0.7;
@@ -184,10 +185,10 @@ export const MapTab: React.FC<MapTabProps> = ({ hospital }) => {
     ];
 
     setNearbyPlaces(places);
-  };
+  }, [location, maxDistance]);
 
   // Generate nearby hospitals
-  const generateNearbyHospitals = () => {
+  const generateNearbyHospitals = React.useCallback(() => {
     const hospitals = [
       { 
         id: 101, 
@@ -219,12 +220,12 @@ export const MapTab: React.FC<MapTabProps> = ({ hospital }) => {
     ];
 
     setNearbyHospitals(hospitals);
-  };
+  }, [location]);
 
   useEffect(() => {
     generateNearbyPlaces();
     generateNearbyHospitals();
-  }, [hospital.id]);
+  }, [hospital.id, generateNearbyHospitals, generateNearbyPlaces]);
 
   const handleShowNearby = () => {
     setShowNearby(!showNearby);
@@ -256,7 +257,8 @@ export const MapTab: React.FC<MapTabProps> = ({ hospital }) => {
     } else if (mapRef.current) {
       // Remove nearby place markers (this is simplified - in a real app you'd track markers)
       mapRef.current.eachLayer((layer) => {
-        if (layer instanceof L.Marker && layer !== mapRef.current) {
+  // Fix type comparison: only remove markers, don't compare to map object
+  if (layer instanceof L.Marker) {
           // Remove non-hospital markers
           mapRef.current!.removeLayer(layer);
         }
@@ -412,8 +414,7 @@ export const MapTab: React.FC<MapTabProps> = ({ hospital }) => {
       
       <div 
         ref={mapContainerRef}
-        className="h-[550px] rounded-lg shadow-md overflow-hidden border border-gray-200"
-        style={{ height: '550px', width: '100%' }}
+        className="map-container h-[550px] rounded-lg shadow-md overflow-hidden border border-gray-200"
       ></div>
       
       <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
