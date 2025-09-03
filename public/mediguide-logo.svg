@@ -1,0 +1,40 @@
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Medical Kit/Cross -->
+  <g transform="translate(5,10)">
+    <!-- Main medical kit body -->
+    <rect x="8" y="15" width="25" height="20" rx="4" fill="#FF9999" opacity="0.9"/>
+    <rect x="10" y="17" width="21" height="16" rx="3" fill="#FFB3B3"/>
+    
+    <!-- Cross on the kit -->
+    <rect x="17" y="20" width="3" height="10" fill="#FF6B6B"/>
+    <rect x="13" y="23" width="11" height="3" fill="#FF6B6B"/>
+    
+    <!-- Pills around the kit -->
+    <!-- Purple pill 1 -->
+    <ellipse cx="25" cy="8" rx="4" ry="2" fill="#B794F6" transform="rotate(25 25 8)"/>
+    <ellipse cx="25" cy="8" rx="3.5" ry="1.5" fill="#D6BCFA" transform="rotate(25 25 8)"/>
+    
+    <!-- Purple pill 2 -->
+    <ellipse cx="5" cy="35" rx="3.5" ry="1.8" fill="#B794F6" transform="rotate(-15 5 35)"/>
+    <ellipse cx="5" cy="35" rx="3" ry="1.3" fill="#D6BCFA" transform="rotate(-15 5 35)"/>
+    
+    <!-- Orange pill 1 -->
+    <circle cx="35" cy="12" r="3" fill="#F6AD55"/>
+    <circle cx="35" cy="12" r="2.2" fill="#FBD38D"/>
+    <rect x="33" y="11" width="4" height="2" fill="#ED8936"/>
+    
+    <!-- Orange pill 2 -->
+    <circle cx="2" cy="20" r="2.5" fill="#F6AD55"/>
+    <circle cx="2" cy="20" r="1.8" fill="#FBD38D"/>
+    <rect x="0.5" y="19" width="3" height="2" fill="#ED8936"/>
+    
+    <!-- Additional purple capsule -->
+    <ellipse cx="30" cy="35" rx="3" ry="1.5" fill="#B794F6" transform="rotate(45 30 35)"/>
+    <ellipse cx="30" cy="35" rx="2.5" ry="1.2" fill="#D6BCFA" transform="rotate(45 30 35)"/>
+  </g>
+  
+  <!-- MediGuide Text -->
+  <text x="55" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#2D3748">
+    MediGuide
+  </text>
+</svg>
