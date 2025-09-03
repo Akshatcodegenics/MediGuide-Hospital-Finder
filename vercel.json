@@ -15,6 +15,9 @@
       "dest": "/index.html"
     }
   ],
-  "buildCommand": "npm ci && npm run build",
-  "installCommand": "npm ci --no-optional"
+  "buildCommand": "ROLLUP_NO_NATIVE=true npm run build",
+  "installCommand": "npm install --no-optional --legacy-peer-deps",
+  "env": {
+    "ROLLUP_NO_NATIVE": "true"
+  }
 }
